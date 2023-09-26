@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "✨ root",
+			"path": "."
+		},
+		{
+			"name": "app-forum-back",
+			"path": "back"
+		},
+		{
+			"name": "app-forum-front",
+			"path": "front"
+		}
+	]
+}

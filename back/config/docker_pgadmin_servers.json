@@ -1,0 +1,22 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "DB Dev",
+            "Group": "Servers",
+            "Port": 5433,
+            "Username": "admin",
+            "Host": "host.docker.internal",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "mydatabase"
+        },
+        "2": {
+            "Name": "DB Test",
+            "Group": "Servers",
+            "Port": 5434,
+            "Username": "admin",
+            "Host": "host.docker.internal",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "mydatabase"
+        }
+    }
+}
