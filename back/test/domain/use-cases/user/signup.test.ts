@@ -1,5 +1,5 @@
-import { SignupUseCase } from 'src/domain/use-cases/user/signup';
-import { UsersRepository } from 'src/domain/repositories/users';
+import { SignupUseCase } from 'src/use-cases/user/signup';
+import { UsersRepository } from 'src/infra/database/repositories/users';
 const resultUser = { id: 1, name: 'Robert', email: 'robert@test.fr' };
 
 const existingUser = {
@@ -15,12 +15,22 @@ const UsersRepositoryMocked: UsersRepository = {
   },
 };
 
+const DefaultQueueMocked: any = {
+  add: async () => {
+    return;
+  },
+};
+
 describe('SignupUseCase', () => {
   it('should create an user', async () => {
     const spyCreate = jest.spyOn(UsersRepositoryMocked, 'create');
     const spyFindByEmail = jest.spyOn(UsersRepositoryMocked, 'findByEmail');
+    const spyDefaultQueue = jest.spyOn(DefaultQueueMocked, 'add');
 
-    const result = await new SignupUseCase(UsersRepositoryMocked).execute({
+    const result = await new SignupUseCase(
+      UsersRepositoryMocked,
+      DefaultQueueMocked,
+    ).execute({
       name: 'Robert',
       email: 'robert@test.fr',
     });
@@ -31,11 +41,23 @@ describe('SignupUseCase', () => {
     });
 
     expect(spyFindByEmail).toHaveBeenCalledWith('robert@test.fr');
+
+    expect(spyDefaultQueue).toHaveBeenCalledWith('USER_CREATED', {
+      user: {
+        id: 1,
+        name: 'Robert',
+        email: 'robert@test.fr',
+      },
+    });
+
     expect(result).toEqual(resultUser);
   });
 
   it('should throw an error', async () => {
-    const result = new SignupUseCase(UsersRepositoryMocked).execute({
+    const result = new SignupUseCase(
+      UsersRepositoryMocked,
+      DefaultQueueMocked,
+    ).execute({
       name: 'Robert',
       email: 'existingUser@test.fr',
     });

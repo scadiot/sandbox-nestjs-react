@@ -10,10 +10,12 @@ describe('User repository', () => {
     await prismaService.$connect();
   });
 
+  beforeEach(async () => {
+    await clearDb(prismaService);
+  });
+
   describe('create', () => {
     it('should create an user', async () => {
-      await clearDb(prismaService);
-
       await prismaUsersRepository.create({
         name: 'Robert',
         email: 'robert@test.fr',
@@ -27,7 +29,6 @@ describe('User repository', () => {
 
   describe('findByEmail', () => {
     it('should extract an user', async () => {
-      await clearDb(prismaService);
       const newUser = await insertUser(prismaService);
 
       const findedUser = await prismaUsersRepository.findByEmail(newUser.email);

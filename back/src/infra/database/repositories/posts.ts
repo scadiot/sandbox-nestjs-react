@@ -1,4 +1,4 @@
-import { Post } from '../entities/post';
+import { Post } from '../../../domain/entities/post';
 
 export interface PostCreateData {
   title: string;

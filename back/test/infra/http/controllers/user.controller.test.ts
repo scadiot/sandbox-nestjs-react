@@ -1,6 +1,6 @@
 import { UserController } from 'src/infra/http/controllers/user.controller';
 import { buildUser } from '../../../utils/builder';
-import { SignupUseCase } from 'src/domain/use-cases/user/signup';
+import { SignupUseCase } from 'src/use-cases/user/signup';
 import { User } from 'src/domain/entities/user';
 import { AuthService } from 'src/infra/http/services/auth';
 

@@ -3,13 +3,13 @@ import { AuthService } from './services/auth';
 import { DatabaseModule } from 'src/infra/database/database.module';
 import { UserController } from 'src/infra/http/controllers/user.controller';
 import { PostController } from 'src/infra/http/controllers/post.controller';
-import { DomainModule } from 'src/domain/domain.module';
+import { UseCasesModule } from 'src/use-cases/use-cases.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     DatabaseModule,
-    DomainModule,
+    UseCasesModule,
     JwtModule.register({
       global: true,
       secret: 'secret',

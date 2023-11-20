@@ -9,8 +9,8 @@ import {
 import {
   CreatePostUseCase,
   CreatePostCommand,
-} from 'src/domain/use-cases/post/create';
-import { GetPostsUseCase } from 'src/domain/use-cases/post/get';
+} from 'src/use-cases/post/create';
+import { GetPostsUseCase } from 'src/use-cases/post/get';
 import { PostDto, CreatePostDto } from '../dtos';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '../services/auth.guard';
@@ -42,3 +42,8 @@ export class PostController {
     return await this.getPostsUseCase.execute();
   }
 }
+
+//@InjectQueue('queueName') private audioQueue: Queue,
+//const job = await this.audioQueue.add('sample', {
+//  foo: 'bar',
+//});

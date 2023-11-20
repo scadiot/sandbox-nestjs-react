@@ -10,9 +10,12 @@ describe('User repository', () => {
     await prismaService.$connect();
   });
 
+  beforeEach(async () => {
+    await clearDb(prismaService);
+  });
+
   describe('create', () => {
     it('should create an user', async () => {
-      await clearDb(prismaService);
       const user = await insertUser(prismaService);
 
       await prismaPostsRepository.create({
@@ -20,7 +23,7 @@ describe('User repository', () => {
         content: 'content',
         authorId: user.id,
       });
-      const newPost = prismaService.post.findFirst({
+      const newPost = await prismaService.post.findFirst({
         where: { title: 'title' },
       });
       expect(newPost).not.toBeNull();
@@ -29,7 +32,6 @@ describe('User repository', () => {
 
   describe('list', () => {
     it('should extract all posts', async () => {
-      await clearDb(prismaService);
       const user = await insertUser(prismaService);
 
       const post1 = await insertPost(prismaService, user.id);

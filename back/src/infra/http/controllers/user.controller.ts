@@ -6,7 +6,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { SignupUseCase } from 'src/domain/use-cases/user/signup';
+import { SignupUseCase } from 'src/use-cases/user/signup';
 import { SignupDto, UserDto, SigninDto } from '../dtos';
 import {
   ApiOperation,

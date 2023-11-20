@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PostsRepository } from '../../repositories/posts';
-import { Post } from '../../entities/post';
+import { PostsRepository } from '../../infra/database/repositories/posts';
+import { Post } from '../../domain/entities/post';
 import { UseCase } from '../use-case';
 
 export interface CreatePostCommand {

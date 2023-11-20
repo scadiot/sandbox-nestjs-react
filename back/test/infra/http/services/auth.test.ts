@@ -1,5 +1,5 @@
 import { AuthService } from 'src/infra/http/services/auth';
-import { UsersRepository } from 'src/domain/repositories/users';
+import { UsersRepository } from 'src/infra/database/repositories/users';
 import { JwtService } from '@nestjs/jwt';
 import { buildUser } from '../../../utils/builder'
 

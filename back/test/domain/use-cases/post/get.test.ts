@@ -1,5 +1,5 @@
-import { GetPostsUseCase } from 'src/domain/use-cases/post/get';
-import { PostsRepository } from 'src/domain/repositories/posts';
+import { GetPostsUseCase } from 'src/use-cases/post/get';
+import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
 
 const post1 = new Post({

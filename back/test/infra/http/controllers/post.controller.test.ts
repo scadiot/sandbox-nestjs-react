@@ -1,7 +1,7 @@
 import { PostController } from 'src/infra/http/controllers/post.controller';
 import { buildPost, buildUser } from '../../../utils/builder';
-import { CreatePostUseCase } from 'src/domain/use-cases/post/create';
-import { GetPostsUseCase } from 'src/domain/use-cases/post/get';
+import { CreatePostUseCase } from 'src/use-cases/post/create';
+import { GetPostsUseCase } from 'src/use-cases/post/get';
 import { Post } from 'src/domain/entities/post';
 
 const newUser = buildUser();

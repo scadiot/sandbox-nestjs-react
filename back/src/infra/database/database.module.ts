@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaUsersRepository } from './prisma/repository/users';
 import { PrismaPostsRepository } from './prisma/repository/posts';
-import { UsersRepository } from 'src/domain/repositories/users';
-import { PostsRepository } from 'src/domain/repositories/posts';
+import { UsersRepository } from 'src/infra/database/repositories/users';
+import { PostsRepository } from 'src/infra/database/repositories/posts';
 
 @Module({
   providers: [
