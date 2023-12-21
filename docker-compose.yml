@@ -7,7 +7,7 @@ services:
     volumes:
       - ./back/config/nginx.conf:/etc/nginx/nginx.conf
       - ./public:/var/www
-      - ./coverage/lcov-report:/var/coverage
+      - ./back/coverage/lcov-report:/var/coverage
 
   postgres-dev:
     image: postgres:latest
