@@ -7,7 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { SignupUseCase } from 'src/use-cases/user/signup';
-import { SignupDto, UserDto, SigninDto } from '../dtos';
+import { SignupDto, UserDto, SigninDto, SigninResponseDto } from '../dtos';
 import {
   ApiOperation,
   ApiResponse,
@@ -45,8 +45,16 @@ export class UserController {
 
   //@HttpCode(HttpStatus.OK)
   @Post('signin')
-  signIn(@Body() signInDto: SigninDto): Promise<string> {
-    return this.authService.signIn({ email: signInDto.email });
+  @ApiResponse({
+    status: 200,
+    description: 'Successful signin.',
+    type: SigninResponseDto,
+  })
+  signIn(@Body() signInDto: SigninDto): Promise<SigninResponseDto> {
+    return this.authService.signIn({
+      email: signInDto.email,
+      password: signInDto.password,
+    });
   }
 
   @UseGuards(AuthGuard)

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { UsersRepository, UserCreateData } from 'src/infra/database/repositories/users';
+import {
+  UsersRepository,
+  UserCreateData,
+} from 'src/infra/database/repositories/users';
 import { User } from 'src/domain/entities/user';
 import { User as PrismaUser } from '@prisma/client';
 
@@ -32,5 +35,6 @@ export function toDomain(prismaUser: PrismaUser): User {
     id: prismaUser.id,
     email: prismaUser.email,
     name: prismaUser.name,
+    hashedPassword: prismaUser.hashedPassword,
   });
 }

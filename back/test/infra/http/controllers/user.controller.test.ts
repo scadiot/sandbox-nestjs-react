@@ -29,11 +29,13 @@ describe('UserController', () => {
       const newUser = await userController.signup({
         email: 'test@test.fr',
         name: 'robert',
+        password: 'pass',
       });
 
       expect(spySignupUseCase).toHaveBeenCalledWith({
         email: 'test@test.fr',
         name: 'robert',
+        password: 'pass',
       });
 
       expect(newUser).toEqual(user);

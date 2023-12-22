@@ -15,6 +15,12 @@ const jwtService = {
   },
 } as unknown as JwtService;
 
+const PasswordServiceMocked: any = {
+  comparePassword: async () => {
+    return true;
+  },
+};
+
 describe('SignupUseCase', () => {
   it('should create an user', async () => {
     const spySignAsync = jest.spyOn(jwtService, 'signAsync');
@@ -23,14 +29,19 @@ describe('SignupUseCase', () => {
     const result = await new AuthService(
       UsersRepositoryMocked,
       jwtService,
+      PasswordServiceMocked,
     ).signIn({
       email: user.email,
+      password: 'password',
     });
 
     expect(spySignAsync).toHaveBeenCalledWith({
       user: { id: user.id, name: user.name },
     });
     expect(spyFindByEmail).toHaveBeenCalledWith(user.email);
-    expect(result).toEqual({ access_token: 'token' });
+    expect(result).toEqual({
+      token: 'token',
+      user: { id: user.id, name: user.name, email: user.email },
+    });
   });
 });

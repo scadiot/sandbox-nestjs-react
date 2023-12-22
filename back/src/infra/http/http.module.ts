@@ -5,6 +5,7 @@ import { UserController } from 'src/infra/http/controllers/user.controller';
 import { PostController } from 'src/infra/http/controllers/post.controller';
 import { UseCasesModule } from 'src/use-cases/use-cases.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ServiceModule } from 'src/infra/services/service.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'secret',
       signOptions: { expiresIn: '60s' },
     }),
+    ServiceModule,
   ],
   providers: [AuthService],
   controllers: [UserController, PostController],

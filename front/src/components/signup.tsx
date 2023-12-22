@@ -13,23 +13,25 @@ import Container from '@mui/material/Container';
 import { NavLink } from 'react-router-dom';
 
 export interface SignUpSubmitData {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   password: string;
 }
 
 export interface SignUpProps {
-  onSubmit: (submitData: SignUpSubmitData) => void
+  onSubmit: (submitData: SignUpSubmitData) => void,
+  loading: boolean,
+  error: Error | undefined,
 }
 
 export default function SignUp(props: SignUpProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const firstName = data.get('firstName') as string;
+    const lastName = data.get('lastName') as string;
     const submitData: SignUpSubmitData = {
-      firstName: data.get('firstName') as string,
-      lastName: data.get('lastName') as string,
+      name: `${firstName} ${lastName}`,
       email: data.get('email') as string,
       password: data.get('password') as string,
     };

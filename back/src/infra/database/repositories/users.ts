@@ -3,6 +3,7 @@ import { User } from '../../../domain/entities/user';
 export interface UserCreateData {
   email: string;
   name: string;
+  hashedPassword: string;
 }
 
 export abstract class UsersRepository {

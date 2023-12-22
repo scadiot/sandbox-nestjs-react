@@ -1,11 +1,17 @@
 import { SignupUseCase } from 'src/use-cases/user/signup';
 import { UsersRepository } from 'src/infra/database/repositories/users';
-const resultUser = { id: 1, name: 'Robert', email: 'robert@test.fr' };
+const resultUser = {
+  id: 1,
+  name: 'Robert',
+  email: 'robert@test.fr',
+  hashedPassword: 'hashed_pass',
+};
 
 const existingUser = {
   id: 1098,
   name: 'Seb',
   email: 'existingUser@test.fr',
+  hashedPassword: 'hashed_pass',
 };
 
 const UsersRepositoryMocked: UsersRepository = {
@@ -21,23 +27,35 @@ const DefaultQueueMocked: any = {
   },
 };
 
+const PasswordServiceMocked: any = {
+  hashPassword: async () => {
+    return 'hashed_pass';
+  },
+};
+
 describe('SignupUseCase', () => {
   it('should create an user', async () => {
     const spyCreate = jest.spyOn(UsersRepositoryMocked, 'create');
     const spyFindByEmail = jest.spyOn(UsersRepositoryMocked, 'findByEmail');
     const spyDefaultQueue = jest.spyOn(DefaultQueueMocked, 'add');
+    const spyHashPassword = jest.spyOn(PasswordServiceMocked, 'hashPassword');
 
     const result = await new SignupUseCase(
       UsersRepositoryMocked,
       DefaultQueueMocked,
+      PasswordServiceMocked,
     ).execute({
       name: 'Robert',
       email: 'robert@test.fr',
+      password: 'pass',
     });
+
+    expect(spyHashPassword).toHaveBeenCalledWith('pass');
 
     expect(spyCreate).toHaveBeenCalledWith({
       name: 'Robert',
       email: 'robert@test.fr',
+      hashedPassword: 'hashed_pass',
     });
 
     expect(spyFindByEmail).toHaveBeenCalledWith('robert@test.fr');
@@ -47,6 +65,7 @@ describe('SignupUseCase', () => {
         id: 1,
         name: 'Robert',
         email: 'robert@test.fr',
+        hashedPassword: 'hashed_pass',
       },
     });
 
@@ -57,9 +76,11 @@ describe('SignupUseCase', () => {
     const result = new SignupUseCase(
       UsersRepositoryMocked,
       DefaultQueueMocked,
+      PasswordServiceMocked,
     ).execute({
       name: 'Robert',
       email: 'existingUser@test.fr',
+      password: 'pass',
     });
 
     expect(result).rejects.toThrow('email already exist');

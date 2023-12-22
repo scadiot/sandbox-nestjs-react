@@ -6,6 +6,7 @@ export function buildUser(): User {
     id: 1,
     name: 'rober',
     email: 'test@test.fr',
+    hashedPassword: 'pass',
   };
 }
 

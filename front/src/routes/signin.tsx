@@ -1,25 +1,38 @@
 import SignIn, { SignInSubmitData } from '../components/signin'
-import useFetch from 'use-http'
+import useHttp from 'use-http'
+import { useAuth } from '../auth-context';
+import Message from '../components/message';
+import Button from '@mui/material/Button';
 
 export default function SignInRoute() {
-  const options = {}
-  const { loading, error } = useFetch('https://example.com/todos', options, [])
+  const { post, response, loading, error } = useHttp()
+  const { token, login, logout } = useAuth();
 
-  const handleSubmit = (signInSubmitData: SignInSubmitData) => {
-    signInSubmitData.email
+  const handleSubmit = async (signInSubmitData: SignInSubmitData) => {
+    
+    const loginData = await post('/api/signin', signInSubmitData)
+    
+    if (response.ok) {
+      console.log(loginData.token)
+      login(loginData.token, loginData.user)
+    } else {
+      console.log('error')
+    }
   };
 
-  if (loading) {
-    return <div>loading...</div>
+  if (token) {
+    return (
+      <Message title='You are already logged in'>
+        <Button onClick={logout} >
+          Logout
+        </Button>
+      </Message>
+    )
   }
-
-  if (error) {
-    return <div>error...</div>
-  }
-
+  
   return  (
     <>
-      <SignIn onSubmit={handleSubmit} />
+      <SignIn onSubmit={handleSubmit} loading={loading} error={error} />
     </>
   );
 }

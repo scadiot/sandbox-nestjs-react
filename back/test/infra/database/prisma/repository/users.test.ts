@@ -19,6 +19,7 @@ describe('User repository', () => {
       await prismaUsersRepository.create({
         name: 'Robert',
         email: 'robert@test.fr',
+        hashedPassword: 'hashed_password',
       });
       const newUser = prismaService.user.findFirst({
         where: { email: 'robert@test.fr' },

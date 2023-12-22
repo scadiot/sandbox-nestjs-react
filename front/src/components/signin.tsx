@@ -18,7 +18,9 @@ export interface SignInSubmitData {
 }
 
 export interface SignInProps {
-  onSubmit: (submitData: SignInSubmitData) => void
+  onSubmit: (submitData: SignInSubmitData) => void,
+  loading: boolean,
+  error: Error | undefined,
 }
 
 function SignIn(props: SignInProps) {
@@ -75,6 +77,13 @@ function SignIn(props: SignInProps) {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {
+              props.error  && (
+                <Typography variant="body2" color="error" gutterBottom>
+                  Incorrect username or password
+                </Typography>
+              )
+            }
             <Button
               type="submit"
               fullWidth

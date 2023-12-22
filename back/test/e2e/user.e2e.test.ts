@@ -2,9 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
-import {
-  clearDb,
-} from '../infra/database/prisma/repository/utils';
+import { clearDb } from '../infra/database/prisma/repository/utils';
 import { PrismaService } from 'src/infra/database/prisma/prisma.service';
 
 describe('AppController (e2e)', () => {
@@ -27,15 +25,15 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    await clearDb(prismaService);
   });
 
   it('/signup (POST)', async () => {
-    await clearDb(prismaService);
-
     const response = await request(app.getHttpServer())
       .post('/signup')
       .set('Content-Type', 'application/json')
-      .send('{"email":"test@test.com","name":"robert"}');
+      .send('{"email":"test@test.com","name":"robert", "password": "pass"}');
 
     expect(response.status).toEqual(201);
     expect(response.body).toBeDefined();

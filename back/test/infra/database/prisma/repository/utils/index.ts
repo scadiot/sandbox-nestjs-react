@@ -9,6 +9,7 @@ export async function insertUser(prismaService: PrismaService): Promise<User> {
     data: {
       email: 'test@test.fr',
       name: 'robert',
+      hashedPassword: 'pass',
     },
   });
   return prismaUserToDomain(prismaUser);
