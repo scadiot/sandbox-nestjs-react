@@ -26,9 +26,7 @@ describe.only('AuthGuard', () => {
         executionContext,
       );
 
-      expect(spySignAsync).toHaveBeenCalledWith('token', {
-        secret: 'secret',
-      });
+      expect(spySignAsync).toHaveBeenCalledWith('token');
 
       expect(result).toEqual(true);
     });

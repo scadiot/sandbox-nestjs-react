@@ -43,4 +43,19 @@ describe('User repository', () => {
       expect(result).toEqual(posts);
     });
   });
+
+  describe('delete', () => {
+    it('should delete post', async () => {
+      const user = await insertUser(prismaService);
+
+      const post = await insertPost(prismaService, user.id);
+
+      await prismaPostsRepository.delete(post.id);
+
+      const newPost = await prismaService.post.findFirst({
+        where: { id: post.id },
+      });
+      expect(newPost).toBeNull();
+    });
+  });
 });

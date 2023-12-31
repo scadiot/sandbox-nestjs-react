@@ -5,11 +5,11 @@
 			"path": "."
 		},
 		{
-			"name": "app-forum-back",
+			"name": "sandbox-back",
 			"path": "back"
 		},
 		{
-			"name": "app-forum-front",
+			"name": "sandbox-front",
 			"path": "front"
 		}
 	]

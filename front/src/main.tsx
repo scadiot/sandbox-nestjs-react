@@ -7,6 +7,7 @@ import {
 import Root from "./routes/root";
 import SignIn from "./routes/signin";
 import SignUp from "./routes/signup";
+import Posts from "./routes/posts";
 import { AuthProvider } from './auth-context';
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignUp />
+      },
+      {
+        path: "",
+        element: <Posts />
       },
     ],
   },

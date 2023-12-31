@@ -67,6 +67,30 @@ services:
     depends_on:
       - redis
 
+  elasticsearch-dev:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: elasticsearch-dev
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=admin
+      - xpack.security.enabled=true
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  elasticsearch-test:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: elasticsearch-test
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=admin
+      - xpack.security.enabled=true
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+
 volumes:
     postgres-dev:
     postgres-test:

@@ -43,4 +43,17 @@ describe('AppController (e2e)', () => {
     expect(response.body).toBeDefined();
     expect(response.body).toEqual([post1, post2]);
   });
+
+  it('/post (GET)', async () => {
+    await clearDb(prismaService);
+    const user = await insertUser(prismaService);
+    const post1 = await insertPost(prismaService, user.id);
+    const post2 = await insertPost(prismaService, user.id);
+
+    const response = await request(app.getHttpServer()).get('/post');
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toBeDefined();
+    expect(response.body).toEqual([post1, post2]);
+  });
 });

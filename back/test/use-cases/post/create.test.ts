@@ -1,6 +1,7 @@
 import { CreatePostUseCase } from 'src/use-cases/post/create';
 import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
+import { Queue } from 'bullmq';
 
 const post1 = new Post({
   id: 1,
@@ -25,16 +26,23 @@ const PostsRepositoryMocked: PostsRepository = {
   async create(): Promise<Post> {
     return post1;
   },
-  async list(): Promise<Post[]> {
-    return posts;
-  },
+  list: jest.fn(),
+  delete: jest.fn(),
+  get: jest.fn(),
 };
+
+const defaultQueueMocked = {
+  add: jest.fn(),
+} as unknown as Queue;
 
 describe('CreatePostUseCase', () => {
   it('should call create a post', async () => {
     const spyCreate = jest.spyOn(PostsRepositoryMocked, 'create');
 
-    const result = await new CreatePostUseCase(PostsRepositoryMocked).execute({
+    const result = await new CreatePostUseCase(
+      PostsRepositoryMocked,
+      defaultQueueMocked,
+    ).execute({
       title: post1.title,
       content: post1.content,
       authorId: 1,

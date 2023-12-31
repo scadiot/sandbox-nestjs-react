@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   UsersRepository,
   UserCreateData,
@@ -17,14 +17,18 @@ export interface SignupUseCaseCommand {
 
 @Injectable()
 export class SignupUseCase implements UseCase<SignupUseCaseCommand, User> {
+  private readonly logger = new Logger(SignupUseCase.name);
+
   constructor(
     private readonly usersRepository: UsersRepository,
     @InjectQueue('defaultQueue') private defaultQueue: Queue,
     private readonly passwordService: PasswordService,
   ) {}
 
-  async execute(request: SignupUseCaseCommand): Promise<User> {
-    const { email, name, password } = request;
+  async execute(command: SignupUseCaseCommand): Promise<User> {
+    this.logger.log(`Start signup`, command);
+
+    const { email, name, password } = command;
 
     const existingUser = await this.usersRepository.findByEmail(email);
 
@@ -41,6 +45,7 @@ export class SignupUseCase implements UseCase<SignupUseCaseCommand, User> {
     };
 
     const user = await this.usersRepository.create(userCreateData);
+    this.logger.log(`User created`, user);
 
     await this.defaultQueue.add('USER_CREATED', {
       user,

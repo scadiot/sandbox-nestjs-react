@@ -14,7 +14,7 @@ import { ServiceModule } from 'src/infra/services/service.module';
     JwtModule.register({
       global: true,
       secret: 'secret',
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '60d' },
     }),
     ServiceModule,
   ],

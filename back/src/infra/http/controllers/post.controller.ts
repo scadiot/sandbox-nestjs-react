@@ -2,15 +2,23 @@ import {
   Controller,
   Post,
   Body,
+  Param,
   Get,
+  Delete,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import {
   CreatePostUseCase,
   CreatePostCommand,
 } from 'src/use-cases/post/create';
-import { GetPostsUseCase } from 'src/use-cases/post/get';
+import { ListPostsUseCase } from 'src/use-cases/post/list';
+import {
+  DeletePostUseCase,
+  DeletePostCommand,
+} from 'src/use-cases/post/delete';
+import { SearchPostsUseCase } from 'src/use-cases/post/search';
 import { PostDto, CreatePostDto } from '../dtos';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '../services/auth.guard';
@@ -20,11 +28,13 @@ import { AuthGuard } from '../services/auth.guard';
 export class PostController {
   constructor(
     private readonly createPostUseCase: CreatePostUseCase,
-    private readonly getPostsUseCase: GetPostsUseCase,
+    private readonly listPostsUseCase: ListPostsUseCase,
+    private readonly deletePostUseCase: DeletePostUseCase,
+    private readonly searchPostsUseCase: SearchPostsUseCase,
   ) {}
 
-  @UseGuards(AuthGuard)
   @Post()
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async createPost(
     @Request() req,
@@ -39,11 +49,24 @@ export class PostController {
 
   @Get()
   async list(): Promise<PostDto[]> {
-    return await this.getPostsUseCase.execute();
+    return await this.listPostsUseCase.execute();
+  }
+
+  @Get('search/:query')
+  async search(@Param('query') query: string): Promise<PostDto[]> {
+    return await this.searchPostsUseCase.execute({ query });
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard)
+  async delete(
+    @Request() req,
+    @Param('id', new ParseIntPipe()) id: number,
+  ): Promise<void> {
+    const deletePostCommand: DeletePostCommand = {
+      postId: id,
+      userId: req.user.id,
+    };
+    return await this.deletePostUseCase.execute(deletePostCommand);
   }
 }
-
-//@InjectQueue('queueName') private audioQueue: Queue,
-//const job = await this.audioQueue.add('sample', {
-//  foo: 'bar',
-//});

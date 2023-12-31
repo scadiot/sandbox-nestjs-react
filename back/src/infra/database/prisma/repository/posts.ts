@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { PostsRepository, PostCreateData } from 'src/infra/database/repositories/posts';
+import {
+  PostsRepository,
+  PostCreateData,
+} from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
 import { Post as PrismaPost } from '@prisma/client';
 
@@ -17,10 +20,19 @@ export class PrismaPostsRepository implements PostsRepository {
     return toDomain(postPrisma);
   }
 
+  async get(id: number): Promise<Post> {
+    const post = await this.prisma.post.findFirst({ where: { id } });
+    return toDomain(post);
+  }
+
   async list(): Promise<Post[]> {
     const postsPrisma = await this.prisma.post.findMany();
 
     return postsPrisma.map((p) => toDomain(p));
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.prisma.post.delete({ where: { id } });
   }
 }
 

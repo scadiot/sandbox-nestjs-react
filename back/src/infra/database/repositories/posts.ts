@@ -9,4 +9,6 @@ export interface PostCreateData {
 export abstract class PostsRepository {
   abstract create(postCreateData: PostCreateData): Promise<Post>;
   abstract list(): Promise<Post[]>;
+  abstract delete(id: number): Promise<void>;
+  abstract get(id: number): Promise<Post>;
 }

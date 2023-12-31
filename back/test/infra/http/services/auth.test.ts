@@ -1,7 +1,7 @@
 import { AuthService } from 'src/infra/http/services/auth';
 import { UsersRepository } from 'src/infra/database/repositories/users';
 import { JwtService } from '@nestjs/jwt';
-import { buildUser } from '../../../utils/builder'
+import { buildUser } from 'test/utils/builder';
 
 const user = buildUser();
 

@@ -1,4 +1,4 @@
-import { GetPostsUseCase } from 'src/use-cases/post/get';
+import { ListPostsUseCase } from 'src/use-cases/post/list';
 import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
 
@@ -22,18 +22,18 @@ const posts: Post[] = [
 ];
 
 const PostsRepositoryMocked: PostsRepository = {
-  async create(): Promise<Post> {
-    return post1;
-  },
   async list(): Promise<Post[]> {
     return posts;
   },
+  delete: jest.fn(),
+  create: jest.fn(),
+  get: jest.fn(),
 };
 
-describe('GetPostsUseCase', () => {
+describe('ListPostsUseCase', () => {
   it('should call list posts', async () => {
     const spyList = jest.spyOn(PostsRepositoryMocked, 'list');
-    const result = await new GetPostsUseCase(PostsRepositoryMocked).execute();
+    const result = await new ListPostsUseCase(PostsRepositoryMocked).execute();
 
     expect(spyList).toHaveBeenCalled();
     expect(result).toEqual(posts);
