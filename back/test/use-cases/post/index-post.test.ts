@@ -31,6 +31,6 @@ describe('IndexPostUseCase', () => {
     });
 
     expect(spyGet).toHaveBeenCalledWith(1234);
-    expect(spyIndex).toHaveBeenCalledWith('posts', documentInDb);
+    expect(spyIndex).toHaveBeenCalledWith('posts', '1234', documentInDb);
   });
 });

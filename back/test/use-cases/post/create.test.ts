@@ -3,6 +3,7 @@ import { CustomLogger } from 'src/infra/services/custom-logger.service';
 import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
 import { Queue } from 'bullmq';
+import { MailService } from 'src/infra/services/mail.service';
 
 const post1 = new Post({
   id: 1,
@@ -40,6 +41,10 @@ const logger = {
   log: jest.fn(),
 } as unknown as CustomLogger;
 
+const mailService = {
+  send: jest.fn(),
+} as unknown as MailService;
+
 describe('CreatePostUseCase', () => {
   it('should call create a post', async () => {
     const spyCreate = jest.spyOn(PostsRepositoryMocked, 'create');
@@ -48,6 +53,7 @@ describe('CreatePostUseCase', () => {
       PostsRepositoryMocked,
       defaultQueueMocked,
       logger,
+      mailService,
     ).execute({
       title: post1.title,
       content: post1.content,

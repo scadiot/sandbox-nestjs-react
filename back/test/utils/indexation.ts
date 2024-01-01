@@ -31,6 +31,7 @@ export async function getDocument(index: string, id: string): Promise<unknown> {
 
 export async function insertDocument(
   index: string,
+  id: string,
   document: any,
 ): Promise<void> {
   const client = new Client({
@@ -39,7 +40,7 @@ export async function insertDocument(
 
   await client.index({
     index,
-    id: `${index}_${document.id}`,
+    id,
     body: document,
   });
 

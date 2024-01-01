@@ -20,6 +20,6 @@ export class IndexPostsUseCase implements UseCase<IndexPostCommand, void> {
     this.logger.log(`Index post`, command);
 
     const post = await this.postsRepository.get(command.postId);
-    this.indexationService.index('posts', post);
+    this.indexationService.index('posts', post.id.toString(), post);
   }
 }

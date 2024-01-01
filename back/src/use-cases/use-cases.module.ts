@@ -9,6 +9,7 @@ import { DatabaseModule } from '../infra/database/database.module';
 import { QueueModule } from 'src/queues/queues.module';
 import { ServiceModule } from '../infra/services/service.module';
 import { BullModule } from '@nestjs/bullmq';
+import { MailService } from 'src/infra/services/mail.service';
 
 @Module({
   imports: [DatabaseModule, QueueModule, ServiceModule, BullModule],

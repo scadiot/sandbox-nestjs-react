@@ -12,6 +12,6 @@ export class SearchPostsUseCase implements UseCase<SearchPostCommand, Post[]> {
   constructor(private readonly indexationService: IndexationService) {}
 
   async execute(command: SearchPostCommand): Promise<Post[]> {
-    return await this.indexationService.search('posts', command.query);
+    return await this.indexationService.search('post', command.query);
   }
 }
