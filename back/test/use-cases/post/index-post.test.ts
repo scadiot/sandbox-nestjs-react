@@ -1,4 +1,5 @@
 import { PostsRepository } from 'src/infra/database/repositories/posts';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
 import { IndexationService } from 'src/infra/services/indexation.service';
 import { IndexPostsUseCase } from 'src/use-cases/post/index-post';
 
@@ -12,6 +13,10 @@ const IndexationServiceMocked: IndexationService = {
   index: jest.fn(),
 } as unknown as IndexationService;
 
+const logger = {
+  log: jest.fn(),
+} as unknown as CustomLogger;
+
 describe('IndexPostUseCase', () => {
   it('should index post in ES', async () => {
     const spyGet = jest.spyOn(PostsRepositoryMocked, 'get');
@@ -20,6 +25,7 @@ describe('IndexPostUseCase', () => {
     await new IndexPostsUseCase(
       PostsRepositoryMocked,
       IndexationServiceMocked,
+      logger,
     ).execute({
       postId: 1234,
     });

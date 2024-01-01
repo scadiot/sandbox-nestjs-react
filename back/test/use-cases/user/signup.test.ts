@@ -1,4 +1,5 @@
 import { SignupUseCase } from 'src/use-cases/user/signup';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
 import { UsersRepository } from 'src/infra/database/repositories/users';
 const resultUser = {
   id: 1,
@@ -33,6 +34,10 @@ const PasswordServiceMocked: any = {
   },
 };
 
+const logger = {
+  log: jest.fn(),
+} as unknown as CustomLogger;
+
 describe('SignupUseCase', () => {
   it('should create an user', async () => {
     const spyCreate = jest.spyOn(UsersRepositoryMocked, 'create');
@@ -44,6 +49,7 @@ describe('SignupUseCase', () => {
       UsersRepositoryMocked,
       DefaultQueueMocked,
       PasswordServiceMocked,
+      logger,
     ).execute({
       name: 'Robert',
       email: 'robert@test.fr',
@@ -77,6 +83,7 @@ describe('SignupUseCase', () => {
       UsersRepositoryMocked,
       DefaultQueueMocked,
       PasswordServiceMocked,
+      logger,
     ).execute({
       name: 'Robert',
       email: 'existingUser@test.fr',

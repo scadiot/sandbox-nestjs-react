@@ -1,13 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   UsersRepository,
   UserCreateData,
-} from '../../infra/database/repositories/users';
-import { User } from '../../domain/entities/user';
-import { UseCase } from '../use-case';
+} from 'src/infra/database/repositories/users';
+import { User } from 'src/domain/entities/user';
+import { UseCase } from 'src/use-cases/use-case';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import { PasswordService } from '../../infra/services/password.service';
+import { PasswordService } from 'src/infra/services/password.service';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
 
 export interface SignupUseCaseCommand {
   email: string;
@@ -17,12 +18,11 @@ export interface SignupUseCaseCommand {
 
 @Injectable()
 export class SignupUseCase implements UseCase<SignupUseCaseCommand, User> {
-  private readonly logger = new Logger(SignupUseCase.name);
-
   constructor(
     private readonly usersRepository: UsersRepository,
     @InjectQueue('defaultQueue') private defaultQueue: Queue,
     private readonly passwordService: PasswordService,
+    private readonly logger: CustomLogger,
   ) {}
 
   async execute(command: SignupUseCaseCommand): Promise<User> {

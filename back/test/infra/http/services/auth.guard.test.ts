@@ -17,7 +17,7 @@ const executionContext = {
   }),
 } as unknown as ExecutionContext;
 
-describe.only('AuthGuard', () => {
+describe('AuthGuard', () => {
   describe('canActivate', () => {
     it('valid token', async () => {
       const spySignAsync = jest.spyOn(jwtService, 'verifyAsync');

@@ -1,4 +1,5 @@
 import { CreatePostUseCase } from 'src/use-cases/post/create';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
 import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { Post } from 'src/domain/entities/post';
 import { Queue } from 'bullmq';
@@ -35,6 +36,10 @@ const defaultQueueMocked = {
   add: jest.fn(),
 } as unknown as Queue;
 
+const logger = {
+  log: jest.fn(),
+} as unknown as CustomLogger;
+
 describe('CreatePostUseCase', () => {
   it('should call create a post', async () => {
     const spyCreate = jest.spyOn(PostsRepositoryMocked, 'create');
@@ -42,6 +47,7 @@ describe('CreatePostUseCase', () => {
     const result = await new CreatePostUseCase(
       PostsRepositoryMocked,
       defaultQueueMocked,
+      logger,
     ).execute({
       title: post1.title,
       content: post1.content,

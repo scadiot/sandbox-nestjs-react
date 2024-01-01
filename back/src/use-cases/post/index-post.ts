@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
 import { PostsRepository } from 'src/infra/database/repositories/posts';
 import { IndexationService } from 'src/infra/services/indexation.service';
 import { UseCase } from 'src/use-cases/use-case';
@@ -9,11 +10,10 @@ export interface IndexPostCommand {
 
 @Injectable()
 export class IndexPostsUseCase implements UseCase<IndexPostCommand, void> {
-  private readonly logger = new Logger(IndexPostsUseCase.name);
-
   constructor(
     private readonly postsRepository: PostsRepository,
     private readonly indexationService: IndexationService,
+    private readonly logger: CustomLogger,
   ) {}
 
   async execute(command: IndexPostCommand): Promise<void> {

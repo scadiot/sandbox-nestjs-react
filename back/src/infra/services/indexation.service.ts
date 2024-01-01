@@ -24,11 +24,13 @@ export class IndexationService {
       index: type,
       body: {
         query: {
-          fuzzy: { title: request },
+          query_string: {
+            query: request,
+          },
         },
       },
     });
 
-    return result.hits.hits;
+    return result.hits.hits.map((h) => h._source);
   }
 }

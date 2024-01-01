@@ -1,7 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { PostsRepository } from '../../infra/database/repositories/posts';
-import { Post } from '../../domain/entities/post';
-import { UseCase } from '../use-case';
+import { Injectable } from '@nestjs/common';
+import { PostsRepository } from 'src/infra/database/repositories/posts';
+import { CustomLogger } from 'src/infra/services/custom-logger.service';
+import { Post } from 'src/domain/entities/post';
+import { UseCase } from 'src/use-cases/use-case';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 
@@ -13,11 +14,10 @@ export interface CreatePostCommand {
 
 @Injectable()
 export class CreatePostUseCase implements UseCase<CreatePostCommand, Post> {
-  private readonly logger = new Logger(CreatePostUseCase.name);
-
   constructor(
     private readonly postsRepository: PostsRepository,
     @InjectQueue('defaultQueue') private defaultQueue: Queue,
+    private readonly logger: CustomLogger,
   ) {}
 
   async execute(command: CreatePostCommand): Promise<Post> {
